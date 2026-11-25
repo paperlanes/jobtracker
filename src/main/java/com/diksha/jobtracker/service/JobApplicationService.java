@@ -4,6 +4,7 @@ import com.diksha.jobtracker.dto.ApplicationResponse;
 import com.diksha.jobtracker.dto.CreateApplicationRequest;
 import com.diksha.jobtracker.entity.ApplicationStatus;
 import com.diksha.jobtracker.entity.JobApplication;
+import com.diksha.jobtracker.exception.ApplicationNotFoundException;
 import com.diksha.jobtracker.repository.JobApplicationRepository;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +37,7 @@ public class JobApplicationService {
 
     public ApplicationResponse getById(Long id) {
         JobApplication app = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Application not found: " + id));
+                .orElseThrow(() -> new ApplicationNotFoundException(id));
         return ApplicationResponse.from(app);
     }
 
