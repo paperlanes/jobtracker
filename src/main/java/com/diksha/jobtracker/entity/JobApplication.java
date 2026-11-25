@@ -1,5 +1,6 @@
 package com.diksha.jobtracker.entity;
 
+import com.diksha.jobtracker.exception.InvalidStatusTransitionException;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -36,6 +37,7 @@ public class JobApplication {
     public JobApplication(String company, String role){
         this.company=company;
         this.role=role;
+        this.status = ApplicationStatus.APPLIED;
     }
 
 
@@ -69,8 +71,11 @@ public class JobApplication {
         return status;
     }
 
-    public void setStatus(ApplicationStatus status) {
-        this.status = status;
+    public void moveTo(ApplicationStatus next) {
+        if (!status.canMoveTo(next)) {
+            throw new InvalidStatusTransitionException(status, next);
+        }
+        this.status = next;
     }
 
     public LocalDate getAppliedDate() {

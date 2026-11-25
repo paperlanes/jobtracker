@@ -23,7 +23,7 @@ public class JobApplicationService {
     public ApplicationResponse create(CreateApplicationRequest request) {
         JobApplication app = new JobApplication(request.company(), request.role());
         app.setJobDescription(request.jobDescription());
-        app.setStatus(ApplicationStatus.APPLIED);
+
 
         if (request.appliedDate() != null) {
             app.setAppliedDate(request.appliedDate());
